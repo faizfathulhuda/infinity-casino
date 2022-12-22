@@ -1,5 +1,6 @@
 import '@/assets/styles/tailwind.css'
 import '@/assets/styles/_global.scss'
+import './registerServiceWorker'
 
 import { createPinia } from 'pinia'
 import { createApp } from 'vue'
