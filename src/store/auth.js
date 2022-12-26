@@ -25,8 +25,9 @@ export const useAuth = defineStore('auth', {
   actions: {
     async login(payload) {
       try {
-        const { data } = await api.login(payload)
+        const { data } = await api.auth.login(payload)
         this.setToken(data.data.token)
+        
       } catch (err) {
         throw err
       }

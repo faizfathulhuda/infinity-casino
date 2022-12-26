@@ -1,56 +1,65 @@
 <script>
-import {logo} from '@/assets/index'
+import { POSITION, useToast } from 'vue-toastification'
+
 import { useAuth } from '@/store/auth'
-import {validationPassword}from'@/views/login/index'
+import {validationPassword, validationUsername}from'@/views/login/index'
 export default {
   setup() {
     const auth = useAuth()
-    return { auth }
+    const toast = useToast()    
+    return { auth,toast }
+    
   },
   data: () => ({
-    logo,
     showPassword: false,
-    form: {
+    credential: {
       username: null,
       password:null
     },
     errors: {
-      status: false,
-      message:null
+      username: {
+        status: false,
+        message:null  
+      },
+      password: {
+        status: false,
+        message:null  
+      }
     },
     errorMessage: null,
     isLoading: false
   }),
   methods: {
     async login() {
-      this.errorMessage = null
-      try {
+      if (this.handleValidationPassword() & this.handleValidationUsername()) {
         this.isLoading = true
-        await this.auth.login(this.credential)
-
-        this.isLoading = false
-      } catch (err) {
-        this.isLoading = false
-        this.errorMessage = err.message
+        try {
+          await this.auth.login(this.credential)
+          this.isLoading = false
+        } catch (err) {
+          this.isLoading = false
+          this.toast.error(err.response.data.message,{timeout:5000,position:POSITION.TOP_RIGHT})
+          this.errorMessage = err.message
+        }
       }
     },
     handlePasswordVisibility() {
       this.showPassword = !this.showPassword
     },
     handleValidationPassword() {
-      this.errors = validationPassword(this.form.password)
-      if (this.errors.status) {
+      this.errors = { ...this.errors, password: validationPassword(this.credential.password) }
+      if (this.errors.password.status) {
         return false
       } else {
         return true
       }
     },
-    handleLogin() {
-      if (this.handleValidationPassword() === true) {
-        console.log('ada')
-        this.$router.push({name:'Leaderboard'})
-      } else {
+    handleValidationUsername() {
+      this.errors = {...this.errors,username: validationUsername(this.credential.username)}
+      if (this.errors.username.status) {
         return false
+      } else {
+        return true
       }
     }
   }
@@ -58,60 +67,79 @@ export default {
 </script>
 
 <template class="login">
-  <div class="flex">
-    <div class="mr-[67px]">
-      <img
-        class=" w-[468px] h-[173px] ml-[77px] mt-[134px] mb-[41px]" 
-        src="@/assets/image/img_logo.svg"
-      >
-      <div class="w-[292px] font-poppins font-medium text-[30px] mt-[41px] ml-[149px] text-center ">
-        Login Account
-      </div>
-    
-      <div class="font-poppins font-normal text-[20px] ml-[78px] mt-[40px] mb-[5px]">
-        Username
-      </div>
-      <input
-        v-model="form.username"
-        class="placeholder:text-[#686868] h-[50px] text-[20px] rounded-[10px] border-solid  py-[10px] pl-[16px] w-[450px] ml-[78px] border outline-inherit border-black"
-        placeholder="Input your username"
-      >
-      <p class="font-poppins font-normal text-[20px] ml-[78px] mt-[30px] mb-[5px]">
-        Password
-      </p>
-      <div :class=" ['pl-[16px] h-[50px] ml-[78px] flex w-[450px] item-center  rounded-[10px] border-solid border ',errors.status?'border-[#F41616]':'border-black' ]">
-        <input
-          v-model="form.password"
-        
-          class=" w-[420px]  placeholder:text-[#686868]  focus:outline-none text-[20px]"
-          placeholder="Input your password"
-          :type="showPassword?'text': 'password'"
+  <div class="flex ">
+    <div class="ml-[15%] mr-[15%] sm:mr-[67px] sm:ml-[0px] ">
+      <div class="justify-center  ">
+        <img
+          class=" h-[183px] sm:w-[468px] sm:h-[173px] sm:ml-[77px] sm:mt-[134px] sm:mb-[41px]" 
+          src="@/assets/image/img_logo.svg"
         >
-        <div
-          class="btn flex px-2 bg-transparent border-none hover:bg-transparent"
-          @click="handlePasswordVisibility"
-        >
-          <img :src="showPassword? require('../assets/icons/ic_eye_opened.svg'):require('../assets/icons/ic_eye_closed.svg')">
+        <div class=" w-[292px] text-[20px] mx-[69px] text-center font-poppins font-medium sm:text-[30px] sm:mt-[41px] sm:ml-[149px]  ">
+          Login Account
         </div>
+        <p class="font-poppins font-normal text-[16px] w-[145px] h-[40px] ml-[46px] mt-[9px] sm:text-[20px] sm:ml-[78px] sm:mt-[40px] sm:mb-[5px]">
+          Username
+        </p>
+        <input
+          v-model="credential.username"
+          class="placeholder:text-[#686868] h-[48px] w-[340px] text-[14px] ml-[46px] mr-[44px] sm:h-[50px] 
+        sm:text-[20px] rounded-[10px] border-solid  py-[10px] pl-[16px] sm:w-[450px] sm:ml-[78px] border outline-inherit border-black"
+          placeholder="Input your username"
+        >
+        <!-- error indicator -->
+        <p
+          v-if="errors.username.status"
+          class="font-poppins font-normal  text-[#F41616] mt-[2px] text-[10px] ml-[46px] sm:text-[20px] sm:ml-[78px] sm:mb-[5px]"
+        >
+          {{ errors.username.message }}
+        </p>
+
+        <p
+          class="font-poppins font-normal text-[16px] w-[145px] h-[40px] ml-[46px] mt-[9px]
+       sm:text-[20px] sm:ml-[78px] sm:mt-[30px] sm:mb-[5px]"
+        >
+          Password
+        </p>
+        <div :class=" ['pl-[16px] h-[48px] w-[340px] text-[14px] ml-[46px] mr-[44px] sm:h-[50px] sm:ml-[78px] flex sm:w-[450px] item-center  rounded-[10px] border-solid border ',errors.password.status?'border-[#F41616]':'border-black' ]">
+          <input
+            v-model="credential.password"
+            class=" w-[420px] placeholder:text-[#686868]  focus:outline-none text-[20px]"
+            placeholder="Input your password"
+            :type="showPassword?'text': 'password'"
+          >
+          <div
+            class="btn bg-transparent border-none hover:bg-transparent"
+            @click="handlePasswordVisibility"
+          >
+            <img
+              class="w-[25px] "
+              :src="showPassword? require('../assets/icons/ic_eye_opened.svg'):require('../assets/icons/ic_eye_closed.svg')"
+            >
+          </div>
+        </div>
+        <!-- error indicator -->
+        <p
+          v-if="errors.password.status"
+          class="font-poppins font-normal text-[#F41616] mt-[2px] text-[10px] ml-[46px] sm:text-[20px] sm:ml-[78px] sm:mb-[5px]"
+        >
+          {{ errors.password.message }}
+        </p>
+        <button
+          class="btn normal-case w-[340px] mx-[45px] mt-[21px] sm:text-[25px] sm:mt-[35px] font-medium flex self-center sm:w-[450px] sm:ml-[77px] bg-[#393A3A] hover:bg-[#393A3A] "
+          :class="isLoading? 'loading':''"
+          @click="login"
+        >
+          Login
+        </button>
       </div>
-      <p
-        v-if="errors.status"
-        class="font-poppins font-normal text-[#F41616] text-[20px] ml-[78px] mb-[5px]"
-      >
-        {{ errors.message }}
-      </p>
-      <button
-        class="btn normal-case text-[25px] mt-[35px] font-medium flex self-center w-[450px] ml-[77px] bg-[#393A3A] hover:bg-[#393A3A] "
-        @click="handleLogin"
-      >
-        Login
-      </button>
     </div>
-    <div class=" h-screen  w-screen bg-red-800">
-      <img
-        class=" lg:ml-[161px] lg:mt-[181px] lg:mr-[173px]"
-        src="../assets/image/img_login_side.svg"
-      >
+    <div class="sm:h-full sm:w-screen sm:bg-red-800">
+      <div class="sm:ml-[161px]">
+        <img
+          class=" invisible sm:visible sm:w-[512px] sm:h-[575px] mb-[240px] sm:mt-[181px]"
+          src="../assets/image/img_login_side.svg"
+        >
+      </div>
     </div>
   </div>
 </template>
