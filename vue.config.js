@@ -1,7 +1,14 @@
 const { defineConfig } = require('@vue/cli-service')
 module.exports = defineConfig({
   transpileDependencies: true,
+ configureWebpack: {
+    devServer: {
+      headers: { 'Access-Control-Allow-Origin': '*' }
+    }
+  },
   pwa: {
+    name: 'vue3-template',
+    workboxPluginMode: 'GenerateSW',
     manifestOptions: {
       short_name: 'Casino',
       name: 'Infinity Casino',
