@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
-// import { useAuth } from '@/store/auth'
+import { useAuth } from '@/store/auth'
+
 import leaderboard from './leaderboard'
 import managePlayer from './managePlayer'
 const routes = [
@@ -23,7 +24,7 @@ const routes = [
   },
   {
     path: '/:pathMatch(.*)',
-    redirect: '/'
+    component: () => import('@/views/404.vue')
   }
 ]
 
@@ -32,17 +33,16 @@ const router = createRouter({
   routes
 })
 
-
-
 router.beforeEach((to, from, next) => {
-  // const auth = useAuth()
+  const auth = useAuth()
 
-  // if (to.path !== '/login' && !auth.isAuthenticated) {
-  //   next({ name: 'Login', replace: true })
-  // } else {
-  //   next()
-  // }
-  next()
+  if (to.path !== '/login' && !auth.isAuthenticated) {
+    next({ name: 'Login', replace: true })
+  } else if (to.path === '/login' && auth.isAuthenticated) {
+    next({ path: '/', replace: true })
+  } else {
+    next()
+  }
 })
 
 export default router

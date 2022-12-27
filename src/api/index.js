@@ -1,4 +1,6 @@
-import auth from '@/api/auth'
+import auth from './auth'
+import leaderboard from './leaderboard'
 export default {
-  auth
+  auth,
+  leaderboard
 }
