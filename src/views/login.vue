@@ -36,6 +36,9 @@ export default {
         try {
           await this.auth.login(this.credential)
           this.isLoading = false
+          if (this.auth.token) {
+            this.$router.push({path:'/',replace:true})
+          }
         } catch (err) {
           this.isLoading = false
           this.toast.error(err.response.data.message,{timeout:5000,position:POSITION.TOP_RIGHT})
