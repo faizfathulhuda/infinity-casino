@@ -11,7 +11,7 @@ const routes = [
     children: [
       {
         path: '',
-        redirect: () => '/leaderboard'
+        redirect: () => '/manage-player'
       },
       { ...managePlayer },
       { ...leaderboard }
@@ -35,7 +35,6 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   const auth = useAuth()
-
   if (to.path !== '/login' && !auth.isAuthenticated) {
     next({ name: 'Login', replace: true })
   } else if (to.path === '/login' && auth.isAuthenticated) {

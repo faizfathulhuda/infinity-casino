@@ -36,6 +36,9 @@ export default {
         try {
           await this.auth.login(this.credential)
           this.isLoading = false
+          if (this.auth.token) {
+            this.$router.push({ path: '/' })
+          }
         } catch (err) {
           this.isLoading = false
           this.toast.error(err.response.data.message,{timeout:5000,position:POSITION.TOP_RIGHT})
@@ -66,10 +69,10 @@ export default {
 }
 </script>
 
-<template class="login">
-  <div class="flex ">
-    <div class="ml-[15%] mr-[15%] sm:mr-[67px] sm:ml-[0px] ">
-      <div class="justify-center  ">
+<template>
+  <div class="flex full-height">
+    <div class="ml-[15%] mr-[15%] sm:mr-[67px] sm:ml-0 ">
+      <div class="justify-center">
         <img
           class=" h-[183px] sm:w-[468px] sm:h-[173px] sm:ml-[77px] sm:mt-[134px] sm:mb-[41px]" 
           src="@/assets/image/img_logo.svg"
@@ -144,3 +147,9 @@ export default {
     </div>
   </div>
 </template>
+
+<style>
+.full-height {
+  height: 100vh;
+}
+</style>
