@@ -37,7 +37,7 @@ export default {
           await this.auth.login(this.credential)
           this.isLoading = false
           if (this.auth.token) {
-            this.$router.push({ path: '/' })
+            this.$router.push({path:'/',replace:true})
           }
         } catch (err) {
           this.isLoading = false
