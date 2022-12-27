@@ -69,81 +69,86 @@ export default {
 }
 </script>
 
-<template class="login">
-  <div class="flex ">
-    <div class="ml-[15%] mr-[15%] sm:mr-[67px] sm:ml-[0px] ">
-      <div class="justify-center  ">
+<template>
+  <div class="flex flex-wrap full-height">
+    <div class="w-[100%] sm:w-[40%]">
+      <div class="justify-center">
         <img
-          class=" h-[183px] sm:w-[468px] sm:h-[173px] sm:ml-[77px] sm:mt-[134px] sm:mb-[41px]" 
+          class="h-[160px] mx-[10%] sm:h-[170px] sm:mx-[10%] sm:mt-[60px] sm:mb-[40px]" 
           src="@/assets/image/img_logo.svg"
         >
-        <div class=" w-[292px] text-[20px] mx-[69px] text-center font-poppins font-medium sm:text-[30px] sm:mt-[41px] sm:ml-[149px]  ">
+        <div class="text-[20px] mx-[69px] text-center font-poppins font-medium sm:text-[30px] sm:mt-[41px] sm:mx-[3%]">
           Login Account
         </div>
-        <p class="font-poppins font-normal text-[16px] w-[145px] h-[40px] ml-[46px] mt-[9px] sm:text-[20px] sm:ml-[78px] sm:mt-[40px] sm:mb-[5px]">
-          Username
-        </p>
-        <input
-          v-model="credential.username"
-          :class="[`placeholder:text-[#686868] h-[48px] w-[340px] text-[14px] ml-[46px] mr-[44px] 
-                    sm:h-[50px] sm:text-[20px] rounded-[10px] border-solid  py-[10px] pl-[16px]
-                    sm:w-[450px] sm:ml-[78px] border ${errors.username.status ? 'border-[#F41616]' : 'border-black'}`]"
-          placeholder="Input your username"
-        >
-        <!-- error indicator -->
-        <p
-          v-if="errors.username.status"
-          class="font-poppins font-normal  text-[#F41616] mt-[2px] text-[10px] ml-[46px] sm:text-[20px] sm:ml-[78px] sm:mb-[5px]"
-        >
-          {{ errors.username.message }}
-        </p>
-
-        <p
-          class="font-poppins font-normal text-[16px] w-[145px] h-[40px] ml-[46px] mt-[9px]
-       sm:text-[20px] sm:ml-[78px] sm:mt-[30px] sm:mb-[5px]"
-        >
-          Password
-        </p>
-        <div :class=" ['pl-[16px] h-[48px] w-[340px] text-[14px] ml-[46px] mr-[44px] sm:h-[50px] sm:ml-[78px] flex sm:w-[450px] item-center  rounded-[10px] border-solid border ',errors.password.status?'border-[#F41616]':'border-black' ]">
+        <div class="mx-[10%] sm:mx-[10%] mt-10">
+          <p class="font-poppins font-normal text-[16px] mb-1">
+            Username
+          </p>
           <input
-            v-model="credential.password"
-            class=" w-[420px] placeholder:text-[#686868]  focus:outline-none text-[14px] sm:text-[20px]"
-            placeholder="Input your password"
-            :type="showPassword?'text': 'password'"
+            v-model="credential.username"
+            :class="[`placeholder:text-[#686868] h-[40px] w-[100%] text-[14px] rounded-[10px] border-solid border px-[10px] bg-white
+                      sm:h-[50px] sm:text-[20px] ${errors.username.status ? 'border-[#F41616]' : 'border-black'}`]"
+            placeholder="Input your username"
           >
-          <div
-            class="btn bg-transparent border-none hover:bg-transparent"
-            @click="handlePasswordVisibility"
+          <p
+            v-if="errors.username.status"
+            class="font-poppins font-normal text-[#F41616] mt-[2px] text-[10px] sm:text-[15px] sm:mb-[5px]"
           >
-            <img
-              class="w-[25px] "
-              :src="showPassword? require('../assets/icons/ic_eye_opened.svg'):require('../assets/icons/ic_eye_closed.svg')"
-            >
-          </div>
+            {{ errors.username.message }}
+          </p>
         </div>
-        <!-- error indicator -->
-        <p
-          v-if="errors.password.status"
-          class="font-poppins font-normal text-[#F41616] mt-[2px] text-[10px] ml-[46px] sm:text-[20px] sm:ml-[78px] sm:mb-[5px]"
-        >
-          {{ errors.password.message }}
-        </p>
-        <button
-          class="btn normal-case w-[340px] mx-[45px] mt-[21px] sm:text-[25px] sm:mt-[35px] font-medium flex self-center sm:w-[450px] sm:ml-[77px] bg-[#393A3A] hover:bg-[#393A3A] "
-          :class="isLoading? 'loading':''"
-          @click="login"
-        >
-          Login
-        </button>
+        <div class="mx-[10%] sm:mx-[10%] mt-10">
+          <p class="font-poppins font-normal text-[16px] mb-1">
+            Password
+          </p>
+          <div :class=" ['pl-[16px] h-[40px] w-[100%] text-[14px] sm:h-[50px] flex item-center  rounded-[10px] border-solid border ',errors.password.status?'border-[#F41616]':'border-black' ]">
+            <input
+              v-model="credential.password"
+              class=" w-[100%] placeholder:text-[#686868] focus:outline-none text-[14px] sm:text-[20px]"
+              placeholder="Input your password"
+              :type="showPassword?'text': 'password'"
+            >
+            <div
+              class="btn bg-transparent border-none hover:bg-transparent"
+              @click="handlePasswordVisibility"
+            >
+              <img
+                class="w-[25px] mt-[-6px] sm:mt-0"
+                :src="showPassword? require('../assets/icons/ic_eye_opened.svg'):require('../assets/icons/ic_eye_closed.svg')"
+              >
+            </div>
+          </div>
+          <p
+            v-if="errors.password.status"
+            class="font-poppins font-normal text-[#F41616] mt-[2px] text-[10px] sm:text-[15px] sm:mb-[5px]"
+          >
+            {{ errors.password.message }}
+          </p>
+        </div>
+        <div class="mx-[10%] sm:mx-[10%] mt-10">
+          <button
+            class="btn normal-case w-[100%] mt-[21px] sm:text-[25px] sm:mt-[5px] bg-[#393A3A] hover:bg-[#393A3A] "
+            :class="isLoading? 'loading':''"
+            @click="login"
+          >
+            Login
+          </button>
+        </div>
       </div>
     </div>
-    <div class="sm:h-full sm:w-screen sm:bg-red-800">
-      <div class="sm:mx-[161px]">
+    <div class="hidden sm:block sm:w-[60%] sm:shrink sm:bg-[#C21010]">
+      <div class="sm:mx-[25%]">
         <img
-          class=" invisible sm:visible sm:w-[512px] sm:h-[575px] mb-[240px] sm:mt-[181px]"
+          class="sm:w-[500px] sm:h-[550px] mb-[240px] sm:my-[130px]"
           src="../assets/image/img_login_side.svg"
         >
       </div>
     </div>
   </div>
 </template>
+
+<style>
+.full-height {
+  height: 100vh;
+}
+</style>

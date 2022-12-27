@@ -33,8 +33,8 @@ export const useAuth = defineStore('auth', {
       }
     },
     logout() {
+      this.isAuthenticated = false
       localStorage.removeItem(encTokenKey)
-      localStorage.removeItem(encMeKey)
     },
     setToken(payload) {
       const encToken = Cryptojs.AES.encrypt(payload, KEY_HASH_CRYPTO).toString()

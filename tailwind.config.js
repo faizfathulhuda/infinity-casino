@@ -4,6 +4,9 @@ module.exports = {
   theme: {
     fontFamily: {
       poppins: ['poppins']
+    },
+    colors: {
+      'btn-red' : '#B03A3C'
     }
   },
   daisyui: {

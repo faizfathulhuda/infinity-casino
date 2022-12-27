@@ -52,20 +52,38 @@
             :icon="menu.icon"
             fixed-width
           />
-          <span class="ml-3">
+          <span class="ml-3 font-poppins">
             {{ menu.text }}
           </span>
         </router-link>
+        <div class="absolute bottom-0 mb-4">
+          <button 
+            class="btn bg-btn-red border-none w-72"
+            @click="logout"
+          >
+            <fa-icon
+              class="mr-3"
+              icon="sign-out"
+              fixed-width
+            />
+            Logout
+          </button>
+        </div>
       </ul>
     </div>
   </div>
 </template>
 
 <script>
+import { useAuth } from '@/store/auth'
 export default {
 
   components: {},
   props: {},
+  setup() {
+    const auth = useAuth()
+    return {auth}
+  },
 
   data: () => ({
     activeMenu: '',
@@ -90,6 +108,10 @@ export default {
   methods: {
     changeMenu(val) {
       this.activeMenu = val
+    },
+    logout() {
+      this.auth.logout()
+      this.$router.push({ path: '/login' })
     }
   }
 }
