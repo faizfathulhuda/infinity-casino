@@ -2,7 +2,7 @@
 import { POSITION, useToast } from 'vue-toastification'
 
 import { useAuth } from '@/store/auth'
-import {validationPassword, validationUsername}from'@/views/login/index'
+import {validationPassword, validationUsername}from'@/views/login/validation'
 export default {
   setup() {
     const auth = useAuth()
@@ -82,8 +82,9 @@ export default {
         </p>
         <input
           v-model="credential.username"
-          class="placeholder:text-[#686868] h-[48px] w-[340px] text-[14px] ml-[46px] mr-[44px] sm:h-[50px] 
-        sm:text-[20px] rounded-[10px] border-solid  py-[10px] pl-[16px] sm:w-[450px] sm:ml-[78px] border outline-inherit border-black"
+          :class="[`placeholder:text-[#686868] h-[48px] w-[340px] text-[14px] ml-[46px] mr-[44px] 
+                    sm:h-[50px] sm:text-[20px] rounded-[10px] border-solid  py-[10px] pl-[16px]
+                    sm:w-[450px] sm:ml-[78px] border ${errors.username.status ? 'border-[#F41616]' : 'border-black'}`]"
           placeholder="Input your username"
         >
         <!-- error indicator -->
@@ -103,7 +104,7 @@ export default {
         <div :class=" ['pl-[16px] h-[48px] w-[340px] text-[14px] ml-[46px] mr-[44px] sm:h-[50px] sm:ml-[78px] flex sm:w-[450px] item-center  rounded-[10px] border-solid border ',errors.password.status?'border-[#F41616]':'border-black' ]">
           <input
             v-model="credential.password"
-            class=" w-[420px] placeholder:text-[#686868]  focus:outline-none text-[20px]"
+            class=" w-[420px] placeholder:text-[#686868]  focus:outline-none text-[14px] sm:text-[20px]"
             placeholder="Input your password"
             :type="showPassword?'text': 'password'"
           >
@@ -134,7 +135,7 @@ export default {
       </div>
     </div>
     <div class="sm:h-full sm:w-screen sm:bg-red-800">
-      <div class="sm:ml-[161px]">
+      <div class="sm:mx-[161px]">
         <img
           class=" invisible sm:visible sm:w-[512px] sm:h-[575px] mb-[240px] sm:mt-[181px]"
           src="../assets/image/img_login_side.svg"
