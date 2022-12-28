@@ -1,24 +1,118 @@
-<template>
-  <div>
-    Manage Player
-  </div>
-</template>
-
 <script>
+import { POSITION, useToast } from 'vue-toastification'
+
+import { useManagePlayer } from '@/store/managePlayer'
 export default {
-
-  components: {},
-  props: {},
-
-  data: () => ({}),
-
-  computed: {},
-
-  mounted() {},
-
-  methods: {}
+  setup() {
+    const managePlayer = useManagePlayer()
+    const toast = useToast()
+    return { managePlayer, toast }
+  },
+  data: () => ({
+    limit: 10,
+    page: 1,
+    search: '',
+    totalRows: 10,
+    pageOptions: [10, 20, 50, 100, 500, 1000],
+    sortBy: '',
+    sortDesc: false,
+    items: [],
+    fields: [
+      { key: 'id', label: 'ID', sortable: true },
+      { key: 'user', label: 'User', sortable: true },
+      { key: 'balance', label: 'Balance', sortable: true },
+      { key: 'action', label: 'Action' }
+    ],
+    errorMessage: null,
+    isLoading: false
+  }),
+  created() {
+    this.fetchPlayer()
+  },
+  methods: {
+    async fetchPlayer() {
+      this.isLoading = true
+      try {
+        await this.managePlayer.fetchUsers({
+          limit: this.limit,
+          page: this.page,
+          search: this.search
+        })
+        this.items = this.managePlayer.getUsers
+        this.isLoading = false
+      } catch (err) {
+        this.isLoading = false
+        this.toast.error(err.response.data.message,{timeout:5000,position:POSITION.TOP_RIGHT})
+        this.errorMessage = err.message
+      }
+    }
+  }
 }
 </script>
 
-<style lang="scss" scoped>
+<template class="login">
+  <div class="mt-10 mx-6">
+    <div class="flex align-items-center justify-between mb-5">
+      <button 
+        class="btn bg-[#393A3A] border-none w-60"
+      >
+        Add Player
+      </button>
+      <input
+        v-model="search"
+        :class="[`placeholder:text-[#686868] text-[14px] rounded-[10px] border-solid border px-[10px] bg-white
+                      sm:h-[48px] sm:text-[20px]`]"
+        placeholder="Search..."
+      >
+    </div>
+
+    <table class="table table-zebra w-full">
+      <!-- head -->
+      <thead class="header-table">
+        <tr>
+          <th class="bg-[#393A3A]">
+            ID
+          </th>
+          <th class="bg-[#393A3A]">
+            User
+          </th>
+          <th class="bg-[#393A3A]">
+            Balance
+          </th>
+          <th class="bg-[#393A3A]">
+            Action
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          v-for="(item, index) in items"
+          :key="index"
+        >
+          <th>{{ index + 1 }}</th>
+          <td>{{ item.name }}</td>
+          <td>{{ item.balance }}</td>
+          <td>
+            <fa-icon
+              class="mr-3 cursor-pointer"
+              icon="edit"
+              fixed-width
+            />
+            <fa-icon
+              class="mr-3 cursor-pointer"
+              icon="trash-alt"
+              fixed-width
+            />
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</template>
+
+<style lang="scss">
+.header-table {
+  background-color: #393A3A;
+  color: #fff;
+}
 </style>
