@@ -18,17 +18,17 @@
       <div class="font-poppins mx-[10%]  whitespace-normal text-center font-normal text-[20px]">
         Are you sure you want to delete this player data?
       </div>
-      <div class="modal-action ">
+      <div class="flex ml-[20%] mt-[17px]">
         <label
           for="modal-delete-player"
-          class="btn w-[25%] font-poppins font-normal text-[#C21010] border-[#C21010] bg-transparent hover:bg-transparent text-[20px] normal-case"
+          class="btn w-[30%] font-poppins font-normal text-[#C21010] border-[#C21010] bg-transparent hover:bg-transparent text-[20px] normal-case"
           @click="onPressButton"
         >
           Cancel
         </label>
         <label
           for="modal-delete-player"
-          class="btn w-[25%] bg-[#C21010] font-poppins font-normal hover:bg-[#C21010] text-[20px] normal-case"
+          class="btn w-[30%] ml-[10%] bg-[#C21010] font-poppins font-normal hover:bg-[#C21010] text-[20px] normal-case"
           @click="onPressButton"
         >
           Yes
