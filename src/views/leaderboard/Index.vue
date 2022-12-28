@@ -1,34 +1,34 @@
 <template class="leaderboard">
-  <div class="flex">
-    <div class="sm:w-[193px] absolute bottom-0 sm:ml-[282px]">
+  <div class="flex  sm:mx-[20%]">
+    <div class="sm:w-[193px] h-[60%] w-[34%]  absolute bottom-0  ">
       <p class="font-Nunito relative font-extrabold text-[#627077]  text-center  sm:text-3xl">
-        {{ leaderboardData[1]?.name?leaderboardData[1]?.name:'second player' }}
+        {{ leaderboardData[1]?.name }}
       </p>
-      <div class="sm:h-[400px] sm:mt-[40px]   bg-gradient-to-r from-[#DB1212] to-[#F41616]">
+      <div class="h-[100%] mt-[40px]   bg-gradient-to-r from-[#DB1212] to-[#F41616]">
         <img
-          class="mx-[28px] sm:w-[140px]"
+          class="mx-[15%] w-[80%]"
           src="@/assets/icons/ic_2nd_place_medal.svg"
         >
       </div>
     </div>
-    <div class="sm:w-[193px] absolute bottom-0 sm:ml-[474px]">
+    <div class="sm:w-[193px] h-[77%] w-[34%] sm:ml-[193px] absolute bottom-0 ml-[34%]">
       <p class="font-Nunito font-extrabold text-center  text-[#FFAC33] sm:text-3xl">
         {{ leaderboardData[0]?.name }}
       </p>
-      <div class="sm:h-[500px] sm:mt-[40px]  bg-gradient-to-r from-[#DB1212] to-[#F41616]">
+      <div class="h-[100%] mt-[40px]  bg-gradient-to-r from-[#DB1212] to-[#F41616]">
         <img
-          class="sm:mx-[28px] sm:w-[140px]"
+          class="mx-[15%] w-[80%]"
           src="@/assets/icons/ic_1st_place_medal.svg"
         >
       </div>
     </div>
-    <div class="w-[193px] absolute bottom-0 sm:ml-[667px] ">
+    <div class="sm:w-[193px] h-[45%] w-[34%] sm:ml-[386px] absolute bottom-0 ml-[68%] ">
       <p class="font-Nunito font-extrabold text-center  text-[#7C4119] text-3xl">
-        {{ leaderboardData[2]?.name?leaderboardData[2]?.name:'thrid player' }}
+        {{ leaderboardData[2]?.name}}
       </p>
-      <div class="h-[300px] sm:mt-[40px] bg-gradient-to-r from-[#DB1212]  to-[#F41616]">
+      <div class="h-[100%] mt-[40px] bg-gradient-to-r from-[#DB1212]  to-[#F41616]">
         <img
-          class="mx-[28px] sm:w-[140px]"
+          class="mx-[15%] w-[80%]"
           src="@/assets/icons/ic_3rd_place_medal.svg"
         >
       </div>
