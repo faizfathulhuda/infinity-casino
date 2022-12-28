@@ -2,7 +2,9 @@
 import { POSITION, useToast } from 'vue-toastification'
 
 import { useManagePlayer } from '@/store/managePlayer'
+import modal from '@/views/Component/modalForm'
 export default {
+  components: { modal },
   setup() {
     const managePlayer = useManagePlayer()
     const toast = useToast()
@@ -24,7 +26,12 @@ export default {
       { key: 'action', label: 'Action' }
     ],
     errorMessage: null,
-    isLoading: false
+    isLoading: false,
+    showModal: {
+      addPlayer: false,
+      deletePlayer: false,
+      editPlayer: false
+    }
   }),
   created() {
     this.fetchPlayer()
@@ -42,7 +49,7 @@ export default {
         this.isLoading = false
       } catch (err) {
         this.isLoading = false
-        this.toast.error(err.response.data.message,{timeout:5000,position:POSITION.TOP_RIGHT})
+        this.toast.error(err.response.data.message, { timeout: 5000, position: POSITION.TOP_RIGHT })
         this.errorMessage = err.message
       }
     }
@@ -53,56 +60,35 @@ export default {
 <template class="login">
   <div class="mt-10 mx-6">
     <div class="flex align-items-center justify-between mb-5">
-      <button 
-        class="btn bg-[#393A3A] border-none w-60"
-      >
-        Add Player
-      </button>
+      <modal addPlayer="true" modalTitle="'Add Player'" buttonTitle="Add Player" styleButton="btn bg-[#393A3A] normal-case border-none w-60" actionTitle="Add" />
       <input
         v-model="search"
-        :class="[`placeholder:text-[#686868] text-[14px] rounded-[10px] border-solid border px-[10px] bg-white
-                      sm:h-[48px] sm:text-[20px]`]"
+        :class="[
+          `placeholder:text-[#686868] text-[14px] rounded-[10px] border-solid border px-[10px] bg-white
+                      sm:h-[48px] sm:text-[20px]`
+        ]"
         placeholder="Search..."
-      >
+      />
     </div>
 
     <table class="table table-zebra w-full">
       <!-- head -->
       <thead class="header-table">
         <tr>
-          <th class="bg-[#393A3A]">
-            ID
-          </th>
-          <th class="bg-[#393A3A]">
-            User
-          </th>
-          <th class="bg-[#393A3A]">
-            Balance
-          </th>
-          <th class="bg-[#393A3A]">
-            Action
-          </th>
+          <th class="bg-[#393A3A]">ID</th>
+          <th class="bg-[#393A3A]">User</th>
+          <th class="bg-[#393A3A]">Balance</th>
+          <th class="bg-[#393A3A]">Action</th>
         </tr>
       </thead>
       <tbody>
-        <tr
-          v-for="(item, index) in items"
-          :key="index"
-        >
+        <tr v-for="(item, index) in items" :key="index">
           <th>{{ index + 1 }}</th>
           <td>{{ item.name }}</td>
           <td>{{ item.balance }}</td>
           <td>
-            <fa-icon
-              class="mr-3 cursor-pointer"
-              icon="edit"
-              fixed-width
-            />
-            <fa-icon
-              class="mr-3 cursor-pointer"
-              icon="trash-alt"
-              fixed-width
-            />
+            <modal addPlayer="false"  buttonTitle="Edit Player" actionTitle="Save" />
+            <fa-icon class="mr-3 cursor-pointer" icon="trash-alt" fixed-width />
           </td>
         </tr>
       </tbody>
@@ -112,7 +98,7 @@ export default {
 
 <style lang="scss">
 .header-table {
-  background-color: #393A3A;
+  background-color: #393a3a;
   color: #fff;
 }
 </style>
