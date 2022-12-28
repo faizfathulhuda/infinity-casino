@@ -2,9 +2,11 @@
 import { POSITION, useToast } from 'vue-toastification'
 
 import { useManagePlayer } from '@/store/managePlayer'
-import modal from '@/views/Component/modalForm'
+import addPlayerForm from '@/views/Component/addPlayerFormModal'
+import deletePlayerModal from '@/views/Component/deletePlayerModal'
+import editPlayerForm from '@/views/Component/editPlayerFormModal'
 export default {
-  components: { modal },
+  components: { addPlayerForm, editPlayerForm, deletePlayerModal },
   setup() {
     const managePlayer = useManagePlayer()
     const toast = useToast()
@@ -31,7 +33,8 @@ export default {
       addPlayer: false,
       deletePlayer: false,
       editPlayer: false
-    }
+    },
+    typeModal: 'Edit Player'
   }),
   created() {
     this.fetchPlayer()
@@ -60,7 +63,7 @@ export default {
 <template class="login">
   <div class="mt-10 mx-6">
     <div class="flex align-items-center justify-between mb-5">
-      <modal addPlayer="true" modalTitle="'Add Player'" buttonTitle="Add Player" styleButton="btn bg-[#393A3A] normal-case border-none w-60" actionTitle="Add" />
+      <addPlayerForm />
       <input
         v-model="search"
         :class="[
@@ -68,27 +71,38 @@ export default {
                       sm:h-[48px] sm:text-[20px]`
         ]"
         placeholder="Search..."
-      />
+      >
     </div>
 
     <table class="table table-zebra w-full">
       <!-- head -->
       <thead class="header-table">
         <tr>
-          <th class="bg-[#393A3A]">ID</th>
-          <th class="bg-[#393A3A]">User</th>
-          <th class="bg-[#393A3A]">Balance</th>
-          <th class="bg-[#393A3A]">Action</th>
+          <th class="bg-[#393A3A]">
+            ID
+          </th>
+          <th class="bg-[#393A3A]">
+            User
+          </th>
+          <th class="bg-[#393A3A]">
+            Balance
+          </th>
+          <th class="bg-[#393A3A]">
+            Action
+          </th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(item, index) in items" :key="index">
+        <tr
+          v-for="(item, index) in items"
+          :key="index"
+        >
           <th>{{ index + 1 }}</th>
           <td>{{ item.name }}</td>
           <td>{{ item.balance }}</td>
           <td>
-            <modal addPlayer="false"  buttonTitle="Edit Player" actionTitle="Save" />
-            <fa-icon class="mr-3 cursor-pointer" icon="trash-alt" fixed-width />
+            <editPlayerForm />
+            <deletePlayerModal />
           </td>
         </tr>
       </tbody>
