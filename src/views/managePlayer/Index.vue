@@ -81,21 +81,32 @@ export default {
         ]"
         placeholder="Search..."
         @change="fetchPlayer"
-      />
+      >
     </div>
 
     <table class="table table-zebra w-full">
       <!-- head -->
       <thead class="header-table">
         <tr>
-          <th class="bg-[#393A3A]">ID</th>
-          <th class="bg-[#393A3A]">User</th>
-          <th class="bg-[#393A3A]">Balance</th>
-          <th class="bg-[#393A3A]">Action</th>
+          <th class="bg-[#393A3A]">
+            ID
+          </th>
+          <th class="bg-[#393A3A]">
+            User
+          </th>
+          <th class="bg-[#393A3A]">
+            Balance
+          </th>
+          <th class="bg-[#393A3A]">
+            Action
+          </th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(item, index) in items" :key="index">
+        <tr
+          v-for="(item, index) in items"
+          :key="index"
+        >
           <th>{{ index + 1 }}</th>
           <td>{{ item.name }}</td>
           <td>{{ item.balance }}</td>
@@ -103,9 +114,13 @@ export default {
             <editPlayerForm
               :param-name="item.name"
               :param-balance="item.balance"
-              :id-player ="item.id"
+              :id-player="item.id"
+              @update-list="fetchPlayer"
             />
-            <deletePlayerModal @update-list="fetchPlayer" :id-player="item.id" />
+            <deletePlayerModal
+              :id-player="item.id"
+              @update-list="fetchPlayer"
+            />
           </td>
         </tr>
       </tbody>

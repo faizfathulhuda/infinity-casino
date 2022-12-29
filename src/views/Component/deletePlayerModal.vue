@@ -43,10 +43,10 @@ import { POSITION, useToast } from 'vue-toastification'
 
 import api from '@/api'
 export default {
-  emits:['update-list'],
   props: {
     idPlayer: { type: Number, default: () => null }
   },
+  emits:['update-list'],
   setup() {
     const toast = useToast()
     return {toast}
