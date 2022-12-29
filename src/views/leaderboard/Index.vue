@@ -23,7 +23,7 @@
       </div>
     </div>
     <div class="sm:w-[193px] h-[45%] w-[34%] sm:ml-[386px] absolute bottom-0 ml-[68%] ">
-      <p class="font-Nunito font-extrabold text-center  text-[#7C4119] text-3xl">
+      <p class="font-Nunito font-extrabold text-center  text-[#7C4119] sm:text-3xl">
         {{ leaderboardData[2]?.name }}
       </p>
       <div class="h-[100%] mt-[40px] bg-gradient-to-r from-[#DB1212]  to-[#F41616]">
