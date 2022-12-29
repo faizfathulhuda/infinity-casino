@@ -1,13 +1,11 @@
 <template>
-  <label
-    for="modal-player2"
-  ><fa-icon
+  <label :for="'modal-player'+idPlayer"><fa-icon
     class="mr-3 cursor-pointer"
     icon="edit"
     fixed-width
   /></label>
   <input
-    id="modal-player2"
+    :id="'modal-player'+idPlayer"
     type="checkbox"
     class="modal-toggle"
   >
@@ -15,7 +13,7 @@
     <div class="modal-box">
       <div class="card-actions justify-end">
         <label
-          for="modal-player2"
+          :for="'modal-player'+idPlayer"
           class="btn btn-square bg-transparent border-none hover:bg-transparent hover:border-none"
         >
           <img src="@/assets/icons/ic_cross.svg">
@@ -26,12 +24,12 @@
       </h2>
 
       <div class="card-body">
-        <div class="mx-[10%] sm:mx-[10%]">
+        <div class="">
           <p class="font-poppins font-normal text-[20px] mb-1">
             Player Name
           </p>
           <input
-            v-model="playerName"
+            v-model="dataPlayer.name"
             :class="[
               `placeholder:text-[#686868] h-[40px] w-[100%] text-[black] text-[14px] rounded-[10px] border-solid border px-[10px] bg-white
                       sm:h-[50px] sm:text-[20px] ${error.playerName.status ? 'border-[#F41616]' : 'border-black'}`
@@ -46,12 +44,12 @@
             {{ error.playerName.message }}
           </p>
         </div>
-        <div class="mx-[10%] sm:mx-[10%] mb-[32px]">
+        <div class="mb-[32px]">
           <p class="font-poppins font-normal text-[20px] mb-1">
             Balance
           </p>
           <input
-            v-model="balance"
+            v-model="dataPlayer.balance"
             :class="[
               `placeholder:text-[#686868] h-[40px] w-[100%] text-[black] text-[14px] rounded-[10px] border-solid border px-[10px] bg-white
              sm:h-[50px] sm:text-[20px] ${error.balance.status ? 'border-[#F41616]' : 'border-black'}`
@@ -68,10 +66,12 @@
         </div>
         <div class="modal-action">
           <label
-            for="modal-player2"
+            :for="'modal-player'+idPlayer"
             class="btn w-[100%] bg-[#C21010] hover:bg-[#C21010] text-[20px] normal-case"
             @click="onPressButton"
-          > Save </label>
+          >
+            Save
+          </label>
         </div>
       </div>
     </div>
@@ -80,9 +80,16 @@
 
 <script>
 export default {
+  props: {
+    paramName: { type: String, default: () => '' },
+    paramBalance: { type: Number, default: () => null },
+    idPlayer:{type: Number, default: () => null}
+  },
   data: () => ({
-    playerName: '',
-    balance: null,
+    dataPlayer: {
+      name: '',
+      balance: null
+    },
     error: {
       playerName: {
         status: false,
@@ -93,6 +100,10 @@ export default {
         message: ''
       }
     }
-  })
+  }),
+  created() {
+    this.dataPlayer.name = this.paramName
+    this.dataPlayer.balance = this.paramBalance
+  }
 }
 </script>
