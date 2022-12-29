@@ -18,6 +18,8 @@ const refreshInstance = axios.create({
 const refresh = async originalRequest => {
   try {
     const auth = useAuth()
+    localStorage.clear()
+    router.push('/')
     const { data } = await refreshInstance.post('auth/refresh-token', {
       token: localStorage.getItem('token'),
       refreshToken: localStorage.getItem('refreshToken')
