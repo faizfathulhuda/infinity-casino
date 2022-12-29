@@ -1,11 +1,11 @@
 <template>
-  <label for="modal-player2"><fa-icon
+  <label :for="'modal-player'+idPlayer"><fa-icon
     class="mr-3 cursor-pointer"
     icon="edit"
     fixed-width
   /></label>
   <input
-    id="modal-player2"
+    :id="'modal-player'+idPlayer"
     type="checkbox"
     class="modal-toggle"
   >
@@ -13,7 +13,7 @@
     <div class="modal-box">
       <div class="card-actions justify-end">
         <label
-          for="modal-player2"
+          :for="'modal-player'+idPlayer"
           class="btn btn-square bg-transparent border-none hover:bg-transparent hover:border-none"
         >
           <img src="@/assets/icons/ic_cross.svg">
@@ -66,7 +66,7 @@
         </div>
         <div class="modal-action">
           <label
-            for="modal-player2"
+            :for="'modal-player'+idPlayer"
             class="btn w-[100%] bg-[#C21010] hover:bg-[#C21010] text-[20px] normal-case"
             @click="onPressButton"
           >
@@ -82,7 +82,8 @@
 export default {
   props: {
     paramName: { type: String, default: () => '' },
-    paramBalance: { type: Number, default: () => null }
+    paramBalance: { type: Number, default: () => null },
+    idPlayer:{type: Number, default: () => null}
   },
   data: () => ({
     dataPlayer: {
@@ -99,6 +100,10 @@ export default {
         message: ''
       }
     }
-  })
+  }),
+  created() {
+    this.dataPlayer.name = this.paramName
+    this.dataPlayer.balance = this.paramBalance
+  }
 }
 </script>

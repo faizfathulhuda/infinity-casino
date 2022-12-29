@@ -1,5 +1,5 @@
 import request from '@/utils/request'
-const list = form => request.get('/players', form)
+const list = form => request.get(`/players?limit=${form.limit}&page=${form.page}&search=${form.search}`)
 const createUser = form => request.post('/players', form)
 const updateUser = (id, form) => request.put(`/players/${id}`, form)
 const getUser = id => request.get(`/players/${id}`)

@@ -37,7 +37,7 @@ export default {
     typeModal: 'Edit Player',
     dataPlayer: {
       name: null,
-      balance:null
+      balance: null
     }
   }),
   created() {
@@ -45,6 +45,7 @@ export default {
   },
   methods: {
     async fetchPlayer() {
+      console.log(this.search)
       this.isLoading = true
       try {
         await this.managePlayer.fetchUsers({
@@ -53,12 +54,16 @@ export default {
           search: this.search
         })
         this.items = this.managePlayer.getUsers
+        console.log(this.items)
         this.isLoading = false
       } catch (err) {
         this.toast.error(err.response.data.message, { timeout: 5000, position: POSITION.TOP_RIGHT })
         this.isLoading = false
         this.errorMessage = err.message
       }
+    },
+    testing() {
+      console.log('masuk')
     }
   }
 }
@@ -71,36 +76,26 @@ export default {
       <input
         v-model="search"
         :class="[
-          `placeholder:text-[#686868] text-[14px] rounded-[10px] border-solid border px-[10px] bg-white
+          `placeholder:text-[#686868] text-[14px] rounded-[10px] border-solid border px-[10px] bg-white w-[25%]
                       sm:h-[48px] sm:text-[20px]`
         ]"
         placeholder="Search..."
-      >
+        @change="fetchPlayer"
+      />
     </div>
 
     <table class="table table-zebra w-full">
       <!-- head -->
       <thead class="header-table">
         <tr>
-          <th class="bg-[#393A3A]">
-            ID
-          </th>
-          <th class="bg-[#393A3A]">
-            User
-          </th>
-          <th class="bg-[#393A3A]">
-            Balance
-          </th>
-          <th class="bg-[#393A3A]">
-            Action
-          </th>
+          <th class="bg-[#393A3A]">ID</th>
+          <th class="bg-[#393A3A]">User</th>
+          <th class="bg-[#393A3A]">Balance</th>
+          <th class="bg-[#393A3A]">Action</th>
         </tr>
       </thead>
       <tbody>
-        <tr
-          v-for="(item, index) in items"
-          :key="index"
-        >
+        <tr v-for="(item, index) in items" :key="index">
           <th>{{ index + 1 }}</th>
           <td>{{ item.name }}</td>
           <td>{{ item.balance }}</td>
@@ -108,8 +103,9 @@ export default {
             <editPlayerForm
               :param-name="item.name"
               :param-balance="item.balance"
+              :id-player ="item.id"
             />
-            <deletePlayerModal @update-list="fetchPlayer" :id-player="item.id"/>
+            <deletePlayerModal @update-list="fetchPlayer" :id-player="item.id" />
           </td>
         </tr>
       </tbody>

@@ -1,11 +1,11 @@
 <template>
-  <label for="modal-delete-player"><fa-icon
+  <label :for="'modal-delete-player'+idPlayer"><fa-icon
     class="mr-3 cursor-pointer"
     icon="trash-alt"
     fixed-width
   /></label>
   <input
-    id="modal-delete-player"
+    :id="'modal-delete-player'+idPlayer"
     type="checkbox"
     class="modal-toggle"
   >
@@ -20,14 +20,14 @@
       </div>
       <div class="flex ml-[20%] mt-[17px]">
         <label
-          for="modal-delete-player"
+          :for="'modal-delete-player'+idPlayer"
           class="btn w-[30%] font-poppins font-normal text-[#C21010] border-[#C21010] bg-transparent hover:bg-transparent text-[20px] normal-case"
           @click="onPressButton"
         >
           Cancel
         </label>
         <label
-          for="modal-delete-player"
+          :for="'modal-delete-player'+idPlayer"
           class="btn w-[30%] ml-[10%] bg-[#C21010] font-poppins font-normal hover:bg-[#C21010] text-[20px] normal-case"
           @click="handleDeletePlayer"
         >
@@ -55,7 +55,6 @@ export default {
   }),
   methods: {
     async handleDeletePlayer() {
-      
       try {
         const response = await api.managePlayer.deleteUser(this.idPlayer)
         if (response.status === 200) {
