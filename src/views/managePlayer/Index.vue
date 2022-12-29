@@ -34,7 +34,11 @@ export default {
       deletePlayer: false,
       editPlayer: false
     },
-    typeModal: 'Edit Player'
+    typeModal: 'Edit Player',
+    dataPlayer: {
+      name: null,
+      balance:null
+    }
   }),
   created() {
     this.fetchPlayer()
@@ -51,8 +55,8 @@ export default {
         this.items = this.managePlayer.getUsers
         this.isLoading = false
       } catch (err) {
-        this.isLoading = false
         this.toast.error(err.response.data.message, { timeout: 5000, position: POSITION.TOP_RIGHT })
+        this.isLoading = false
         this.errorMessage = err.message
       }
     }
@@ -63,7 +67,7 @@ export default {
 <template class="login">
   <div class="mt-10 mx-6">
     <div class="flex align-items-center justify-between mb-5">
-      <addPlayerForm />
+      <addPlayerForm @update-list="fetchPlayer" />
       <input
         v-model="search"
         :class="[
@@ -101,8 +105,11 @@ export default {
           <td>{{ item.name }}</td>
           <td>{{ item.balance }}</td>
           <td>
-            <editPlayerForm />
-            <deletePlayerModal />
+            <editPlayerForm
+              :param-name="item.name"
+              :param-balance="item.balance"
+            />
+            <deletePlayerModal @update-list="fetchPlayer" :id-player="item.id"/>
           </td>
         </tr>
       </tbody>
