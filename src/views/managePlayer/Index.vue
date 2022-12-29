@@ -2,7 +2,11 @@
 import { POSITION, useToast } from 'vue-toastification'
 
 import { useManagePlayer } from '@/store/managePlayer'
+import addPlayerForm from '@/views/Component/addPlayerFormModal'
+import deletePlayerModal from '@/views/Component/deletePlayerModal'
+import editPlayerForm from '@/views/Component/editPlayerFormModal'
 export default {
+  components: { addPlayerForm, editPlayerForm, deletePlayerModal },
   setup() {
     const managePlayer = useManagePlayer()
     const toast = useToast()
@@ -24,7 +28,13 @@ export default {
       { key: 'action', label: 'Action' }
     ],
     errorMessage: null,
-    isLoading: false
+    isLoading: false,
+    showModal: {
+      addPlayer: false,
+      deletePlayer: false,
+      editPlayer: false
+    },
+    typeModal: 'Edit Player'
   }),
   created() {
     this.fetchPlayer()
@@ -42,7 +52,7 @@ export default {
         this.isLoading = false
       } catch (err) {
         this.isLoading = false
-        this.toast.error(err.response.data.message,{timeout:5000,position:POSITION.TOP_RIGHT})
+        this.toast.error(err.response.data.message, { timeout: 5000, position: POSITION.TOP_RIGHT })
         this.errorMessage = err.message
       }
     }
@@ -53,15 +63,13 @@ export default {
 <template class="login">
   <div class="mt-10 mx-6">
     <div class="flex align-items-center justify-between mb-5">
-      <button 
-        class="btn bg-[#393A3A] border-none w-60"
-      >
-        Add Player
-      </button>
+      <addPlayerForm />
       <input
         v-model="search"
-        :class="[`placeholder:text-[#686868] text-[14px] rounded-[10px] border-solid border px-[10px] bg-white
-                      sm:h-[48px] sm:text-[20px]`]"
+        :class="[
+          `placeholder:text-[#686868] text-[14px] rounded-[10px] border-solid border px-[10px] bg-white
+                      sm:h-[48px] sm:text-[20px]`
+        ]"
         placeholder="Search..."
       >
     </div>
@@ -93,16 +101,8 @@ export default {
           <td>{{ item.name }}</td>
           <td>{{ item.balance }}</td>
           <td>
-            <fa-icon
-              class="mr-3 cursor-pointer"
-              icon="edit"
-              fixed-width
-            />
-            <fa-icon
-              class="mr-3 cursor-pointer"
-              icon="trash-alt"
-              fixed-width
-            />
+            <editPlayerForm />
+            <deletePlayerModal />
           </td>
         </tr>
       </tbody>
@@ -112,7 +112,7 @@ export default {
 
 <style lang="scss">
 .header-table {
-  background-color: #393A3A;
+  background-color: #393a3a;
   color: #fff;
 }
 </style>
