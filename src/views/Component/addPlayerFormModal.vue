@@ -130,10 +130,10 @@ export default {
     async handleAddPlayer() {
       this.typeLabel = ''
       if (this.validationPlayerName() & this.validationBalance()) {
-        this.typeLabel = 'modal-player'
         try {
           const response = await api.managePlayer.createUser(this.dataPlayer)
           if (response.status === 201) {
+            this.typeLabel = 'modal-player'
             this.$emit('update-list')
             this.toast.success('Berhasil menambahkan pemain', { timeout: 5000, position: POSITION.TOP_RIGHT })
           } else {
