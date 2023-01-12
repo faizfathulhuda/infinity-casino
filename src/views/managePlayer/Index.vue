@@ -13,7 +13,7 @@ export default {
     return { managePlayer, toast }
   },
   data: () => ({
-    limit: 10,
+    limit: 100,
     page: 1,
     search: '',
     totalRows: 10,
@@ -140,7 +140,7 @@ export default {
 
     <table
       ref="tableplayer"
-      class="table table-zebra w-full"
+      class="table table-zebra w-full mb-10"
     >
       <!-- head -->
       <thead class="header-table">
